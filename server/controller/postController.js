@@ -5,7 +5,6 @@ export const createPost = async (req, res) => {
   const { title, content } = req.body;
   //userId from middleware
   const userId = req.user.userId;
-  console.log('req.user:', req.user);
 
   try {
     const result = await pool.query(
@@ -31,9 +30,30 @@ export const getPosts = async (req, res) => {
     res.json({ posts: result.rows });
   } catch (err) {
     console.log(`Error fetching post, err: ${err}`);
-    res
-      .status(500)
-      .json({ success: false, msg: "can't get all the post", err: err.msg });
+    res.status(500).json({ success: false, msg: "can't get all the post" });
+  }
+};
+
+//get posts of logged in user
+export const getPostsMe = async (req, res) => {
+  // from middleware
+  const userId = req.user.userId;
+
+  try {
+    const result = await pool.query(
+      `SELECT posts.post_id, posts.title, posts.content, posts.created_at, users.username
+      FROM posts 
+      INNER JOIN users ON posts.user_id = users.user_id 
+      WHERE posts.user_id = $1
+      ORDER BY posts.created_at DESC`,
+      [userId]
+    );
+    res.status(200).json({ success: true, posts: result.rows });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      msg: "can't get you posts, internal server error",
+    });
   }
 };
 
