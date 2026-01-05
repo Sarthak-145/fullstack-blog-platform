@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
-import { getPostsMe } from '../services/posts.service';
+import { getPostsMe, deletePost } from '../services/posts.service';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     getPostsMe()
@@ -21,6 +24,24 @@ const Dashboard = () => {
 
   if (loading) return <h3>loading your posts...</h3>;
 
+  const handleEdit = (post) => {
+    navigate(`/post/${post.post_id}/edit`);
+  };
+
+  const handleDelete = async (id) => {
+    const sure = window.confirm(
+      "Are you sure you want to delete this post, this can't be undone"
+    );
+    if (!sure) return;
+
+    try {
+      await deletePost(id);
+      setPosts((prev) => prev.filter((p) => p.post_id !== id));
+    } catch (err) {
+      alert('Failed to delete post');
+    }
+  };
+
   return (
     <div className="min-h-screen px-10 mx-20">
       <div className="flex items-center justify-between m-6">
@@ -31,6 +52,7 @@ const Dashboard = () => {
                  px-5 py-2 font-medium tracking-wide
                  hover:bg-cyan-300 active:scale-[0.98]
                  transition"
+          onClick={() => navigate('/post/new')}
         >
           + New Post
         </button>
@@ -61,11 +83,17 @@ const Dashboard = () => {
               <small className="text-sm text-cyan-500">{post.created_on}</small>
 
               <div className="flex gap-3">
-                <button className="text-sm text-cyan-300 hover:text-cyan-200 transition">
+                <button
+                  className="text-sm text-cyan-300 hover:text-cyan-200 transition"
+                  onClick={() => handleEdit(post)}
+                >
                   Edit
                 </button>
 
-                <button className="text-sm text-red-400 hover:text-red-300 transition">
+                <button
+                  className="text-sm text-red-400 hover:text-red-300 transition"
+                  onClick={() => handleDelete(post.post_id)}
+                >
                   Delete
                 </button>
               </div>
