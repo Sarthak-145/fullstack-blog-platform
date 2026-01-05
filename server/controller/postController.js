@@ -67,10 +67,10 @@ export const getPostWithId = async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT posts.id, posts.title, posts.content, posts.created_at, users.username
+      `SELECT posts.post_id, posts.title, posts.content, posts.created_at, users.username
         FROM posts
-        INNER JOIN users ON posts.user_id = users.id
-        WHERE posts.id = $1;`,
+        INNER JOIN users ON posts.user_id = users.user_id
+        WHERE posts.post_id = $1;`,
       [id]
     );
     res.json({ post: result.rows[0] });
@@ -93,9 +93,10 @@ export const updatePost = async (req, res) => {
 
   //fetch the post which is requested for update.
   try {
-    const postUpdate = await pool.query(`SELECT * FROM posts WHERE id=$1`, [
-      id,
-    ]);
+    const postUpdate = await pool.query(
+      `SELECT * FROM posts WHERE post_id=$1`,
+      [id]
+    );
     if (postUpdate.rowCount === 0) {
       return res.status(404).json({ success: false, msg: 'page is not found' });
     }
@@ -111,11 +112,10 @@ export const updatePost = async (req, res) => {
     const result = await pool.query(
       `UPDATE posts
         SET title = $1, content = $2, updated_at = NOW()
-        WHERE id = $3
-        RETURNING *;`,
+        WHERE post_id = $3;`,
       [title, content, id]
     );
-    res.status(200).json({ post: result.rows[0] });
+    res.status(200).json({ success: true });
   } catch (err) {
     res
       .status(500)
@@ -130,9 +130,10 @@ export const deletePost = async (req, res) => {
 
   try {
     //fetch the requested post
-    const resultPost = await pool.query(`SELECT * FROM posts WHERE id=$1`, [
-      id,
-    ]);
+    const resultPost = await pool.query(
+      `SELECT * FROM posts WHERE post_id=$1`,
+      [id]
+    );
 
     if (resultPost.rowCount === 0) {
       return res.status(404).json({ success: false, msg: 'page is not found' });
@@ -146,13 +147,10 @@ export const deletePost = async (req, res) => {
         .status(403)
         .json({ success: false, msg: "You can't delete this post" });
     }
-    const result = await pool.query(
-      `DELETE FROM posts WHERE id=$1 RETURNING *`,
-      [id]
-    );
+    const result = await pool.query(`DELETE FROM posts WHERE post_id=$1`, [id]);
     res.status(200).json({
       success: true,
-      msg: `post with id ${id} is deleted`,
+      msg: `post with post_id ${id} is deleted`,
       post: result.rows[0],
     });
   } catch (err) {
