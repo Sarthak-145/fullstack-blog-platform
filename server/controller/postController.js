@@ -67,7 +67,7 @@ export const getPostWithId = async (req, res) => {
 
   try {
     const result = await pool.query(
-      `SELECT posts.post_id, posts.title, posts.content, posts.created_at, users.username
+      `SELECT posts.post_id, posts.title, posts.content, posts.created_at, users.username, users.user_id
         FROM posts
         INNER JOIN users ON posts.user_id = users.user_id
         WHERE posts.post_id = $1;`,
