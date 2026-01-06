@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,7 +9,11 @@ const Login = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const { login } = useContext(AuthContext);
+  const { login, user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user) navigate('/home', { replace: true });
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

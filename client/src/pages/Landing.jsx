@@ -1,6 +1,16 @@
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import Home from './Home';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '../contexts/AuthContext';
+
 export default function Landing() {
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if (user) navigate('/home', { replace: true });
+  }, [user]);
+
   return (
     <>
       <div className="flex items-center justify-center bg-surface text-white py-20">

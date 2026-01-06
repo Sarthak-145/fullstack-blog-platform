@@ -49,7 +49,6 @@ export const EditPost = () => {
 
   const gotoDashboard = () => {
     navigate('/dashboard');
-    alert('you cancelled the post');
   };
 
   if (!title && !content && loading) return <div>Loading...</div>;

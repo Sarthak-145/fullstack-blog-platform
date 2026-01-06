@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { getPostsMe, deletePost } from '../services/posts.service';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { timeAgo } from '../utils/timeAgo';
 import { AuthContext } from '../contexts/AuthContext';
 
@@ -55,7 +55,7 @@ const Dashboard = () => {
           className="rounded-md bg-cyan-400 text-[#020617]
                  px-5 py-2 font-medium tracking-wide
                  hover:bg-cyan-300 active:scale-[0.98]
-                 transition"
+                 transition cursor-pointer"
           onClick={() => navigate('/post/new')}
         >
           + New Post
@@ -65,7 +65,7 @@ const Dashboard = () => {
             onClick={logout}
             className="px-3 py-1.5 text-sm text-red-400
                hover:text-red-600
-               transition-colors cursor-pointer border border-red-500/50"
+               transition-colors cursor-pointer border border-red-500/50 cursor-pointer"
           >
             Logout
           </button>
@@ -83,16 +83,17 @@ const Dashboard = () => {
                  shadow"
             key={post.post_id}
           >
-            <div>
-              <h4 className="text-xl font-medium text-cyan-300 mb-2">
-                {post.title}
-              </h4>
+            <Link to={`/post/${post.post_id}`}>
+              <div>
+                <h4 className="text-xl font-medium text-cyan-300 mb-2">
+                  {post.title}
+                </h4>
 
-              <p className="text-slate-300 leading-relaxed line-clamp-4">
-                {post.content}
-              </p>
-            </div>
-
+                <p className="text-slate-300 leading-relaxed line-clamp-4">
+                  {post.content}
+                </p>
+              </div>
+            </Link>
             <div className="flex items-center justify-between pt-4">
               <small className="text-sm text-cyan-500">
                 {timeAgo(post.created_at)}
@@ -100,14 +101,14 @@ const Dashboard = () => {
 
               <div className="flex gap-3">
                 <button
-                  className="text-sm text-cyan-300 hover:text-cyan-200 transition"
+                  className="text-sm text-cyan-300 hover:text-cyan-200 transition cursor-pointer"
                   onClick={() => handleEdit(post)}
                 >
                   Edit
                 </button>
 
                 <button
-                  className="text-sm text-red-400 hover:text-red-300 transition"
+                  className="text-sm text-red-400 hover:text-red-300 transition cursor-pointer"
                   onClick={() => handleDelete(post.post_id)}
                 >
                   Delete

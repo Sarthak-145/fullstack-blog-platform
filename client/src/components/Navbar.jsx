@@ -26,9 +26,9 @@ const Navbar = () => {
           </Link>
         )}
 
-        <Link to="/" className="mx-4 hover-text-accent">
+        <a href="mailto:qveboo@gmil.com" className="mx-4 hover-text-accent">
           Contact
-        </Link>
+        </a>
 
         {user && (
           <Link to="/dashboard" className="mx-4 hover-text-accent">

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getPosts } from '../services/posts.service';
 import { timeAgo } from '../utils/timeAgo';
+import { Link } from 'react-router-dom';
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -33,15 +34,17 @@ function Home() {
               key={post.post_id}
               className="rounded-lg border border-cyan-500/20 bg-slate-900 h-56 p-4 rounded-lg flex flex-col shadow"
             >
-              <div>
-                <h4 className="text-xl font-medium text-cyan-300 mb-2">
-                  {post.title}
-                </h4>
+              <Link to={`/post/${post.post_id}`}>
+                <div>
+                  <h4 className="text-xl font-medium text-cyan-300 mb-2">
+                    {post.title}
+                  </h4>
 
-                <p className="text-slate-300 leading-relaxed line-clamp-4">
-                  {post.content}
-                </p>
-              </div>
+                  <p className="text-slate-300 leading-relaxed line-clamp-4">
+                    {post.content}
+                  </p>
+                </div>
+              </Link>
 
               <div className="flex items-center justify-between pt-4">
                 <small className="text-sm text-cyan-500">

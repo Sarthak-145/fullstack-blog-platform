@@ -37,6 +37,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
+    const sure = window.confirm('Are you sure, you want to logout?');
+    if (!sure) return;
     authServices.logout();
     setUser(null);
   };

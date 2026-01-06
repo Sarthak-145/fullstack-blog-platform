@@ -27,7 +27,6 @@ const CreatePost = () => {
 
   const gotoHome = () => {
     navigate('/home');
-    alert('you cancelled the post');
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0b1324] to-[#020617] px-4">
@@ -44,6 +43,7 @@ const CreatePost = () => {
           <div className="flex flex-col gap-2">
             <label className="text-sm text-slate-200">Title</label>
             <input
+              required
               type="text"
               placeholder="Post title"
               className="rounded-md bg-transparent border border-cyan-400/40
@@ -58,6 +58,7 @@ const CreatePost = () => {
             <label className="text-sm text-slate-200">Content</label>
             <textarea
               rows={8}
+              required
               placeholder="Write your thoughts here..."
               className="rounded-md bg-transparent border border-cyan-400/40
                      px-4 py-3 text-slate-100 placeholder-slate-500 resize-none
@@ -74,7 +75,7 @@ const CreatePost = () => {
               type="button"
               className="rounded-md border border-cyan-400/40 text-cyan-300
                      px-5 py-2 text-sm
-                     hover:bg-cyan-400/10 transition"
+                     hover:bg-cyan-400/10 transition cursor-pointer"
               onClick={gotoHome}
             >
               Cancel
@@ -85,7 +86,7 @@ const CreatePost = () => {
               className="rounded-md bg-cyan-400 text-[#020617]
                      px-6 py-2 font-medium tracking-wide
                      hover:bg-cyan-300 active:scale-[0.98]
-                     transition"
+                     transition cursor-pointer"
               disabled={loading}
             >
               Publish

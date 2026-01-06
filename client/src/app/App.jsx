@@ -11,6 +11,7 @@ import { AuthProvider } from '../contexts/AuthContext';
 import CreatePost from '../pages/CreatePost';
 import Dashboard from '../pages/Dashboard';
 import { EditPost } from '../pages/EditPost';
+import Post from '../pages/Post';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/post/:id" element={<Post />} />
           </Route>
 
           {/* with token */}
