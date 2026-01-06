@@ -1,11 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getPostsMe, deletePost } from '../services/posts.service';
 import { useNavigate } from 'react-router-dom';
+import { timeAgo } from '../utils/timeAgo';
+import { AuthContext } from '../contexts/AuthContext';
 
 const Dashboard = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const { user, logout } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
@@ -56,6 +60,16 @@ const Dashboard = () => {
         >
           + New Post
         </button>
+        {user && (
+          <button
+            onClick={logout}
+            className="px-3 py-1.5 text-sm text-red-400
+               hover:text-red-600
+               transition-colors cursor-pointer border border-red-500/50"
+          >
+            Logout
+          </button>
+        )}
       </div>
 
       {error && <p className="text-red-400 text-sm text-center">{error}</p>}
@@ -80,7 +94,9 @@ const Dashboard = () => {
             </div>
 
             <div className="flex items-center justify-between pt-4">
-              <small className="text-sm text-cyan-500">{post.created_on}</small>
+              <small className="text-sm text-cyan-500">
+                {timeAgo(post.created_at)}
+              </small>
 
               <div className="flex gap-3">
                 <button

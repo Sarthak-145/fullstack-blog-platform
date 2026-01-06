@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getPosts } from '../services/posts.service';
+import { timeAgo } from '../utils/timeAgo';
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -32,17 +33,24 @@ function Home() {
               key={post.post_id}
               className="rounded-lg border border-cyan-500/20 bg-slate-900 h-56 p-4 rounded-lg flex flex-col shadow"
             >
-              <h4 className="text-xl font-medium text-cyan-300 mb-2">
-                {post.title}
-              </h4>
+              <div>
+                <h4 className="text-xl font-medium text-cyan-300 mb-2">
+                  {post.title}
+                </h4>
 
-              <p className="text-slate-300 leading-relaxed mb-3 line-clamp-4">
-                {post.content}
-              </p>
+                <p className="text-slate-300 leading-relaxed line-clamp-4">
+                  {post.content}
+                </p>
+              </div>
 
-              <small className="text-sm text-cyan-500">
-                By {post.username}
-              </small>
+              <div className="flex items-center justify-between pt-4">
+                <small className="text-sm text-cyan-500">
+                  {timeAgo(post.created_at)}
+                </small>
+                <div className="flex gap-3">
+                  <p className="text-sm text-cyan-500">by {post.username}</p>
+                </div>{' '}
+              </div>
             </div>
           ))}
         </div>

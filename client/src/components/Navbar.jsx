@@ -21,17 +21,20 @@ const Navbar = () => {
         )}
 
         {user && (
-          <button
-            onClick={logout}
-            className="mx-4 cursor-pointer hover-text-accent"
-          >
-            Logout
-          </button>
+          <Link to="/post/new" className="mx-4 hover-text-accent">
+            Create Post
+          </Link>
         )}
 
         <Link to="/" className="mx-4 hover-text-accent">
           Contact
         </Link>
+
+        {user && (
+          <Link to="/dashboard" className="mx-4 hover-text-accent">
+            Dashboard
+          </Link>
+        )}
       </div>
     </nav>
   );
