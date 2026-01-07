@@ -20,6 +20,6 @@ app.use('/api/auth', authRouter);
 app.use('/api/posts', postsRouter);
 
 const port = process.env.PORT || 5000;
-app.listen(port, hostname, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Server is listening on port ${port}`);
 });
