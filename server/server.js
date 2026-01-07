@@ -8,19 +8,18 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: true,
     credentials: true,
   })
 );
 app.use(express.json());
-const port = process.env.PORT || 5000;
-const hostname = process.env.HOST || '127.0.0.1';
 
 //routes
 app.use('/api/auth', authRouter);
 
 app.use('/api/posts', postsRouter);
 
+const port = process.env.PORT || 5000;
 app.listen(port, hostname, () => {
-  console.log(`Server is listening on http://${hostname}:${port}`);
+  console.log(`Server is listening on port ${port}`);
 });
