@@ -26,7 +26,7 @@ const Navbar = () => {
           </Link>
         )}
 
-        <a href="mailto:qveboo@gmil.com" className="mx-4 hover-text-accent">
+        <a href="mailto:qveboo@gmail.com" className="mx-4 hover-text-accent">
           Contact
         </a>
 
