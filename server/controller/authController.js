@@ -69,8 +69,8 @@ export const getMe = async (req, res) => {
   );
 
   if (!result.rows[0]) {
-    res.status(401).json({ success: false, msg: 'User is not found' });
+    return res.status(404).json({ success: false, msg: 'User is not found' });
   }
 
-  res.status(200).json({ succcess: true, user: result.rows[0] });
+  res.status(200).json({ success: true, user: result.rows[0] });
 };
